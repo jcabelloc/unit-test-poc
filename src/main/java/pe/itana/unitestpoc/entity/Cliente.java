@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import lombok.ToString;
 
 
 @Entity
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter @Setter @NoArgsConstructor @ToString @AllArgsConstructor
 public class Cliente implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
@@ -35,8 +36,16 @@ public class Cliente implements Serializable  {
 	
 	@Column(unique = true, length = 20)
 	private String nroDocumento;
-	
+		
+	public Cliente(String nroDocumento) {
+		this.nroDocumento = nroDocumento;
+	}
 	
 	public static enum TipoDocumento {DNI, RUC}
+	
+	public Cliente withCodCliente(Integer codCliente) {
+		setCodCliente(codCliente);
+		return this;
+	}
 
 }
