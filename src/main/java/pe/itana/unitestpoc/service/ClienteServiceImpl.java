@@ -28,7 +28,7 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Override
 	public Cliente findById(Integer id) {
-		logger.debug("Obteniendo cliente con id {}", id);
+		logger.info("Obteniendo cliente con id {}", id);
 
 		Optional<Cliente> opt = clienteRepository.findById(id);
 		return opt.orElseThrow();
@@ -36,7 +36,7 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Override
 	public Cliente create(Cliente cliente) {
-		logger.debug("Creando al cliente {}", cliente);
+		logger.info("Creando al cliente {}", cliente);
 		if (cliente.getCodCliente() != null) {
 			throw new IllegalArgumentException();
 		}
@@ -47,14 +47,13 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 
 		cliente = clienteRepository.save(cliente);
-		logger.debug("Creando al cliente 222 {}", cliente);
 
 		return cliente;
 	}
 	
 	@Override
 	public Cliente update(Cliente cliente) {
-		logger.debug("Actualizando al cliente {}", cliente);
+		logger.info("Actualizando al cliente {}", cliente);
 
 		if (!clienteRepository.existsById(cliente.getCodCliente())) {
 			throw new NoSuchElementException();
@@ -72,6 +71,8 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Override
 	public List<Cliente> findAll() {
+		logger.info("Obteniendo todos los clientes");
+
 		return clienteRepository.findAll();
 	}
 
