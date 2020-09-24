@@ -100,7 +100,8 @@ public class ClienteServiceImplTest {
 	
 	// ------------ findAll---------------------------------------
 	@Test
-	public void Should_ObtenerClientes_When_SeEncuentraTodosClientes() {
+	// Should_ObtenerClientes_When_SeEncuentraTodosClientes
+	public void findAll_Should_ObtenerClientes() {
 		List<Cliente> clientes = clienteService.findAll();
 		assertNotNull(clientes);
 		assertEquals(2, clientes.size());
@@ -111,7 +112,8 @@ public class ClienteServiceImplTest {
 	
 	// ------------ findById--------------------------------------
 	@Test
-	public void Should_ObtenerCliente_When_SeEncuentraCliente() {
+	// Should_ObtenerCliente_When_SeEncuentraCliente
+	public void findById_Should_ObtenerCliente() {
 		Cliente cliente = clienteService.findById(1001);
 		assertNotNull(cliente);
 		assertEquals(1001, cliente.getCodCliente());
@@ -119,7 +121,8 @@ public class ClienteServiceImplTest {
 	}
 	
 	@Test
-	public void Should_LanzarExcepcion_When_NoExisteClienteById() {
+	// Should_LanzarExcepcion_When_NoExisteClienteById
+	public void findById_Should_LanzarExcepcion_When_NoExisteCliente() {
 		assertThrows(NoSuchElementException.class, () -> clienteService.findById(1003));
 		verify(clienteRepository, times(1)).findById(anyInt());
 	}
@@ -127,14 +130,16 @@ public class ClienteServiceImplTest {
 	// ------------ update--------------------------------------
 	
 	@Test
-	public void Should_RetornarCliente_When_ClienteEsActualizado() {
+	// Should_RetornarCliente_When_ClienteEsActualizado
+	public void update_Should_RetornarCliente() {
 		Cliente cliente = new Cliente(1001, "Juan Perez Suarez", TipoDocumento.DNI, "15248695");
 		assertEquals(1001, clienteService.update(cliente).getCodCliente());
 		verify(clienteRepository, times(1)).existsById(anyInt());
 	}
 	
 	@Test
-	public void Should_TirarException_When_NoExisteClienteByIdAlActualizar() {
+	//Should_TirarException_When_NoExisteClienteByIdAlActualizar
+	public void update_Should_LanzarException_When_NoExisteCliente() {
 		Cliente cliente = new Cliente();
 		cliente.setCodCliente(1003);
 		assertThrows(NoSuchElementException.class, () -> clienteService.update(cliente));
@@ -145,7 +150,8 @@ public class ClienteServiceImplTest {
     private ArgumentCaptor<Example<Cliente>> argument;
     
 	@Test
-	public void Should_TirarException_When_NroDocumentoDuplicadoAlActualizar() {
+	// Should_TirarException_When_NroDocumentoDuplicadoAlActualizar
+	public void update_Should_LanzarException_When_NroDocumentoEsDuplicado() {
 		Cliente cliente = new Cliente(1001, "Juan Perez", TipoDocumento.DNI, "20245168595");
 		
 		assertThrows(DuplicateKeyException.class, () -> clienteService.update(cliente));
@@ -158,14 +164,16 @@ public class ClienteServiceImplTest {
 	// ------------ create--------------------------------------
 	
 	@Test
-	public void Should_RetornarCliente_When_ClienteEsCreado() {
+	// Should_RetornarCliente_When_ClienteEsCreado
+	public void create_Should_RetornarCliente() {
 		Cliente cliente = new Cliente(null, "Maria Aguirre", TipoDocumento.DNI, "68957584");
 		assertNotNull(clienteService.create(cliente).getCodCliente());;
 		verify(clienteRepository, times(1)).exists(argument.capture());
 	}
 
 	@Test
-	public void Should_TirarException_When_ExisteCodClienteAlCrear() {
+	// Should_TirarException_When_ExisteCodClienteAlCrear
+	public void create_Should_LanzarException_When_ExisteCodCliente() {
 		Cliente cliente = new Cliente(1003, "Maria Aguirre", TipoDocumento.DNI, "68957584");
 		assertThrows(IllegalArgumentException.class, () -> clienteService.create(cliente));
 		verify(clienteRepository, never()).existsById(anyInt());
@@ -173,7 +181,8 @@ public class ClienteServiceImplTest {
 	
     
 	@Test
-	public void Should_TirarException_When_NroDocumentoDuplicadoAlCrear() {
+	// Should_TirarException_When_NroDocumentoDuplicadoAlCrear
+	public void create_Should_LanzarException_When_NroDocumentoEsDuplicado() {
 		Cliente cliente = new Cliente(null, "Maria Aguirre", TipoDocumento.DNI, "15248695");
 		
 		assertThrows(DuplicateKeyException.class, () -> clienteService.create(cliente));
