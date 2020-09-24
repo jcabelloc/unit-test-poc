@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import pe.itana.unitestpoc.entity.Cliente;
 import pe.itana.unitestpoc.repository.ClienteRepository;
+import pe.itana.unitestpoc.utils.ZytrustException;
+
 
 @Service
 @Transactional
@@ -29,9 +31,15 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente findById(Integer id) {
 		logger.info("Obteniendo cliente con id {}", id);
-
+		//clienteRepository.findAll();
 		Optional<Cliente> opt = clienteRepository.findById(id);
-		return opt.orElseThrow();
+		// Cliente resultado = clienteRepository.findAll().stream().filter(e -> e.getCodCliente().equals(id)).findFirst().get();
+		Cliente cliente = null;
+		if (opt.isPresent()) {
+			cliente = opt.get();
+		}
+		return cliente;
+		//return opt.orElseThrow();
 	}
 	
 	@Override
@@ -56,16 +64,18 @@ public class ClienteServiceImpl implements ClienteService {
 		logger.info("Actualizando al cliente {}", cliente);
 
 		if (!clienteRepository.existsById(cliente.getCodCliente())) {
-			throw new NoSuchElementException();
+			throw new ZytrustException("999");
 		}
 		
 		Cliente cli = new Cliente(cliente.getNroDocumento());
-		clienteRepository.findAll(Example.of(cli)).
-		forEach( e -> {
-			if (!e.getCodCliente().equals(cliente.getCodCliente())) {
-				throw new DuplicateKeyException("");
-			}
-		});
+		Example<Cliente> exampleCli = Example.of(cli);
+		// exampleCli.getProbe().equals(cli) // true;
+		clienteRepository.findAll(exampleCli).
+			forEach( e -> {
+				if (!e.getCodCliente().equals(cliente.getCodCliente())) {
+					throw new DuplicateKeyException("");
+				}
+			});
 		return clienteRepository.save(cliente);
 	}
 	
