@@ -3,6 +3,7 @@ package pe.itana.unitestpoc.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import pe.itana.unitestpoc.dto.ClienteDto;
 import pe.itana.unitestpoc.entity.Cliente;
 
 public interface ClienteService {
@@ -43,6 +44,7 @@ public interface ClienteService {
 	public Cliente update(Cliente cliente);
 
 
-
 	List<Cliente> findAll();
+	
+	List<ClienteDto> findByNombreStartingWith(String primerNombre);
 }

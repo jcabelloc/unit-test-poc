@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import pe.itana.unitestpoc.dto.ClienteDto;
 import pe.itana.unitestpoc.entity.Cliente;
 import pe.itana.unitestpoc.repository.ClienteRepository;
 import pe.itana.unitestpoc.utils.ZytrustException;
@@ -31,15 +32,12 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Cliente findById(Integer id) {
 		logger.info("Obteniendo cliente con id {}", id);
-		//clienteRepository.findAll();
 		Optional<Cliente> opt = clienteRepository.findById(id);
-		// Cliente resultado = clienteRepository.findAll().stream().filter(e -> e.getCodCliente().equals(id)).findFirst().get();
 		Cliente cliente = null;
 		if (opt.isPresent()) {
 			cliente = opt.get();
 		}
 		return cliente;
-		//return opt.orElseThrow();
 	}
 	
 	@Override
@@ -69,7 +67,6 @@ public class ClienteServiceImpl implements ClienteService {
 		
 		Cliente cli = new Cliente(cliente.getNroDocumento());
 		Example<Cliente> exampleCli = Example.of(cli);
-		// exampleCli.getProbe().equals(cli) // true;
 		clienteRepository.findAll(exampleCli).
 			forEach( e -> {
 				if (!e.getCodCliente().equals(cliente.getCodCliente())) {
@@ -86,4 +83,11 @@ public class ClienteServiceImpl implements ClienteService {
 		return clienteRepository.findAll();
 	}
 
+  @Override
+  public List<ClienteDto> findByNombreStartingWith(String primerNombre) {
+    return clienteRepository.findByNombreStartingWith(primerNombre);
+  }
+	
+	
+	
 }

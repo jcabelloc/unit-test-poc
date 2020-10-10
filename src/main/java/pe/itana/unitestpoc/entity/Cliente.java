@@ -41,7 +41,7 @@ public class Cliente implements Serializable  {
 		this.nroDocumento = nroDocumento;
 	}
 	
-	public static enum TipoDocumento {DNI, RUC}
+	public enum TipoDocumento {DNI, RUC}
 	
 	public Cliente withCodCliente(Integer codCliente) {
 		setCodCliente(codCliente);
