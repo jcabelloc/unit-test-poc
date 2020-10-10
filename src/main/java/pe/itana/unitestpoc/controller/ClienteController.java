@@ -18,16 +18,18 @@ import pe.itana.unitestpoc.service.ClienteService;
 @RequestMapping("clientes")
 public class ClienteController {
 
-	@Autowired
-	ClienteService clienteService;
-	
-	@GetMapping
-	public ResponseEntity<List<Cliente>> getClientes() {
-	  return new ResponseEntity<>(clienteService.findAll(), HttpStatus.OK);
-	}
+  @Autowired
+  ClienteService clienteService;
+  
+  @GetMapping
+  public ResponseEntity<List<Cliente>> getClientes() {
+    return new ResponseEntity<>(clienteService.findAll(), HttpStatus.OK);
+  }
 
-	@GetMapping(params = "primerNombre")
-	public ResponseEntity<List<ClienteDto>> findByNombreStartingWith(@RequestParam("primerNombre") String primerNombre) {
-	  return new ResponseEntity<>(clienteService.findByNombreStartingWith(primerNombre), HttpStatus.OK);
-	}
+  @GetMapping(params = "primerNombre")
+  public ResponseEntity<List<ClienteDto>> findByNombreStartingWith(
+      @RequestParam("primerNombre") String primerNombre) {
+    return new ResponseEntity<>(clienteService.findByNombreStartingWith(primerNombre), 
+        HttpStatus.OK);
+  }
 }
